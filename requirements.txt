@@ -1,0 +1,16 @@
+black @ file:///Users/ec2-user/croot/black_1770636104557/work
+brotlicffi @ file:///opt/miniconda3/conda-bld/brotlicffi_1764961161648/work
+certifi @ file:///Users/ec2-user/croot/certifi_1767659246487/work/certifi
+cffi @ file:///opt/miniconda3/conda-bld/cffi_1761832774705/work
+charset-normalizer @ file:///opt/miniconda3/conda-bld/charset-normalizer_1761744820108/work
+click @ file:///opt/miniconda3/conda-bld/click_1764332241191/work
+idna @ file:///opt/miniconda3/conda-bld/idna_1761912005314/work
+mypy-extensions @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_98zqpuwvro/croot/mypy_extensions_1695130957675/work
+packaging @ file:///opt/miniconda3/conda-bld/packaging_1761049079066/work
+pathspec @ file:///Users/ec2-user/croot/pathspec_1770400079034/work
+platformdirs @ file:///opt/miniconda3/conda-bld/platformdirs_1762356624685/work
+pycparser @ file:///opt/miniconda3/conda-bld/pycparser_1757496044852/work
+PySocks @ file:///opt/miniconda3/conda-bld/pysocks_1761753010242/work
+pytokens @ file:///opt/miniconda3/conda-bld/pytokens_1764151718214/work
+requests @ file:///opt/miniconda3/conda-bld/requests_1762359591792/work
+urllib3 @ file:///Users/ec2-user/croot/urllib3_1767810410716/work
