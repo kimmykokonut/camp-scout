@@ -22,9 +22,11 @@ Popular campsites on Recreation.gov book up months in advance. This script conti
 ### Phase 1: MVP
 
 - [x] Discover and test Recreation.gov API endpoints
-- [ ] Hardcoded search for specific lookout towers
-- [ ] Hardcoded date range (April 2026)
+- [x] Hardcoded search for specific lookout towers
+- [x] Hardcoded date range (April 2026)
+- [ ] Search from set list, choose 1, get results
 - [ ] Polling loop (check every X minutes)
+- [ ] Save success results to file
 - [ ] Basic notification system
 - [ ] Cron job setup
 
