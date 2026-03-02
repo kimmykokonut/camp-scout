@@ -2,7 +2,8 @@
 import calendar
 
 from api import get_campground_availability, search_campground_by_name
-from config import LOCATIONS
+
+# from config import LOCATIONS
 from processor import (
     extract_available_data,
     extract_search_results,
@@ -11,27 +12,39 @@ from processor import (
 
 
 def main():
-    # Step 1: Hardcoded campground for now
-    campground_id = LOCATIONS[0]["campground_id"]
-    campground_name = LOCATIONS[0]["name"]
-
-    # todo: make this dynamic
-    print("\n=== Rec.gove Availability Checker 2026 ===\n")
+    # Current iteration: interactive console app
+    print("\n=== Rec.gov Availability Checker 2026 ===\n")
     # Step 2: get campground name from user
-    name_search_input = input("Enter campground name to search for: ")
-    print(f"Searching for: {name_search_input}...")
+    search_query = input("Enter campground name to search for: ")
+    print(f"Searching for: {search_query}...")
     # validate?
     # get data from api and display results
-    name_data = search_campground_by_name(name_search_input)
-    if not name_data:
+    search_response = search_campground_by_name(search_query)
+    if not search_response:
         print("Failed to fetch")
         return
-    name_dict = extract_search_results(name_data)
-
-    print(f"Name data results: {name_dict}")
-
-
-
+    campground_options = extract_search_results(search_response)
+    if not campground_options:
+        print("No campgrounds found.  Try a a different name.")
+        # restart prompt?
+        return
+    print(f"\n🎉Found {len(campground_options)} campground(s) matching '{search_query}' \n")
+    for i, campground in enumerate(campground_options):
+        print(f" {i + 1}. {campground['name']}")
+        print("-" * 20)
+    # get user input to confirm campground name
+    name_input = input("Enter the correct number for the campground: ")
+    try:
+        selection_index = int(name_input) - 1
+        if selection_index < 0 or selection_index >= len(campground_options):
+            print(f"Error: Please enter a number between 1 and {len(campground_options)}")
+            return
+        selected_campground_name = campground_options[selection_index]["name"]
+        selected_campground_id = campground_options[selection_index]["id"]
+    except ValueError:
+        print("Error: Please enter a valid number")
+        return
+    print(f"\n✅ Selected: {selected_campground_name}\n")
 
     # Step 3: get month from user
     # NOTE: maybe a date picker?
@@ -48,42 +61,26 @@ def main():
     # get month name
     month_name = calendar.month_name[month]
 
-    print(f"\n Checking availabilty for {campground_name} for { month_name}...\n")
+    print(f"\n🔍 Checking availability for {selected_campground_name} in {month_name}...\n")
 
     # Step 3: get data from api
-    data = get_campground_availability(campground_id, month_input)
+    availability_response = get_campground_availability(selected_campground_id, month_input)
 
-    if not data:
-        print("Failed to fetch data")
+    if not availability_response:
+        print("Failed to fetch availability_response")
         return
 
-    # Step 4: Process data
-    campsites_info = extract_available_data(data)
+    # Step 4: Process availability_response
+    campsites_info = extract_available_data(availability_response)
 
     if campsites_info:
         # Step 5: format and display
-        message = format_availability_display(campsites_info, campground_id, month_name)
+        message = format_availability_display(campsites_info, selected_campground_id, month_name)
         print(message)
         # Step 6: TBD notificaiotns
     else:
-        print(f"No available sites found for {campground_name} in {month_name}")
-
-    # for location in LOCATIONS:
-    #     print(f"\nChecking: {location['name']}")
-
-    #     data = get_campground_availability(location["campground_id"], location["date"])
-
-    #     if data:
-    #         avail = extract_available_data(data)
-    #         if avail:
-    #             print(f"Available! {location['name']}")
-    #             print(avail)
-    #             # TODO: send notificaiton here
-    #         else:
-    #             print(f"Not available")
-    #     else:
-    #         print(f"Failed to fetch data")
-
+        # feature idea: possible to find next available date? button on website.
+        print(f"😭No available sites found for {selected_campground_name} in {month_name}")
 
 if __name__ == "__main__":
     main()

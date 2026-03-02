@@ -24,14 +24,16 @@ from config import RESERVE_BASE_URL
 #             available_sites[site_id] = available_dates
 
 #     return available_sites
+
 def extract_search_results(search_data):
     """
     Extract campground names and IDs from search API
     search_data: JSON response from search_campground_by_name()
     returns: list of dicts with 'name and 'id' or empty list if no results
     """
-    if not search_data:
+    if not search_data or "results" not in search_data:
         return []
+
     results = []
     for item in search_data["results"]:
         results.append({
@@ -40,12 +42,8 @@ def extract_search_results(search_data):
         })
     return results
 
-
-
-
 # check availability for 1 site by id and month
 def extract_available_data(response_data):
-    # core logic, returns structured_dict.
     # takes raw API response, returns dict of multiple sites with available dates.
     if not response_data or "campsites" not in response_data:
         return None
