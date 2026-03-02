@@ -1,9 +1,13 @@
-# entry point for chronjob
+# TBD entry point for chronjob
 import calendar
 
-from api import get_campground_availability
+from api import get_campground_availability, search_campground_by_name
 from config import LOCATIONS
-from processor import extract_available_data, format_availability_display
+from processor import (
+    extract_available_data,
+    extract_search_results,
+    format_availability_display,
+)
 
 
 def main():
@@ -11,10 +15,25 @@ def main():
     campground_id = LOCATIONS[0]["campground_id"]
     campground_name = LOCATIONS[0]["name"]
 
-    # step 2: get date from user
     # todo: make this dynamic
     print("\n=== Rec.gove Availability Checker 2026 ===\n")
-    print(f"Searching for: {campground_name}")
+    # Step 2: get campground name from user
+    name_search_input = input("Enter campground name to search for: ")
+    print(f"Searching for: {name_search_input}...")
+    # validate?
+    # get data from api and display results
+    name_data = search_campground_by_name(name_search_input)
+    if not name_data:
+        print("Failed to fetch")
+        return
+    name_dict = extract_search_results(name_data)
+
+    print(f"Name data results: {name_dict}")
+
+
+
+
+    # Step 3: get month from user
     # NOTE: maybe a date picker?
     month_input = input("Enter month to search for, eg. 4 for April: ")
     # validate month
