@@ -1,6 +1,6 @@
 import requests
 
-# test individual api calls
+# TESTING: draft individual api calls
 
 # todo: add search to get campground id by name (new api call)
 campground_id = "10277125"  # entire campground
@@ -14,6 +14,8 @@ response = requests.get(
 )
 
 response_dict = response.json()
+print('response dict: ', response_dict)
+
 
 campsite_count = len(response_dict["campsites"])
 campsite_id = response_dict["campsites"]
