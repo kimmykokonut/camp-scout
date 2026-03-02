@@ -12,7 +12,7 @@ Popular campsites on Recreation.gov book up months in advance. This script conti
 
 - **Python 3.11**
 - **Libraries:** `requests`, `python-dotenv`
-- **API:** Recreation.gov internal API
+- **API:** Recreation.gov API
 - **Notifications:** TBD (SMS/Email)
 
 ---
@@ -24,20 +24,23 @@ Popular campsites on Recreation.gov book up months in advance. This script conti
 - [x] Discover and test Recreation.gov API endpoints
 - [x] Hardcoded search for specific lookout towers
 - [x] Hardcoded date range (April 2026)
-- [ ] Search from set list, choose 1, get results
+
+### Phase 2: Configurable
+
+- [x] Make interactive console app
+- [x] Results from user input month, year 2026 (No date range options)
+- [x] User keyword search for name, display top 5, user selects 1, id used to get availability
+- [x] Handle different campground types (guard stations vs multi-site campgrounds)
+- [ ] Configuration file for user preferences
+
+### Phase 3: Cron Job & Notifications
+
 - [ ] Polling loop (check every X minutes)
 - [ ] Save success results to file
 - [ ] Basic notification system
 - [ ] Cron job setup
 
-### Phase 2: Configurable
-
-- [ ] Search by campground name
-- [ ] Custom date range selection
-- [ ] Handle different campground types (guard stations vs multi-site campgrounds)
-- [ ] Configuration file for user preferences
-
-### Phase 3: Future Enhancements
+### Phase 4: Future Enhancements
 
 - [ ] Web app interface or Mobile app
 
@@ -47,4 +50,4 @@ Popular campsites on Recreation.gov book up months in advance. This script conti
 
 - Uses undocumented Recreation.gov internal API endpoints
 - Official RIDB API at https://ridb.recreation.gov/docs does not include availability data
-- Endpoints discovered via browser network inspection and open-source projects on github.
+- Endpoints discovered via browser network inspection and other open-source projects on github.
