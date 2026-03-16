@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from config import RESERVE_BASE_URL
 
 # param: json api response for multiple locations, returns sites, availability dict
@@ -21,7 +19,7 @@ from config import RESERVE_BASE_URL
 #             if status == "Available"
 #         }
 #         if available_dates:
-#             available_sites[site_id] = available_dates
+#             available_sites[site_id] = available _dates
 
 #     return available_sites
 

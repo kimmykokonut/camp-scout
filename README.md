@@ -35,13 +35,14 @@ Popular campsites on Recreation.gov book up months in advance. This script conti
 
 ### Phase 3: Cron Job & Notifications
 
-- [ ] Polling loop (check every X minutes)
+- [x] Polling loop (check every X minutes)
 - [ ] Save success results to file
 - [ ] Basic notification system
 - [ ] Cron job setup
 
 ### Phase 4: Future Enhancements
 
+- [ ] Search by location and specific date range (if possible via API)
 - [ ] Web app interface or Mobile app
 
 ---
