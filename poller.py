@@ -4,6 +4,7 @@ from datetime import datetime
 from api import get_campground_availability
 from config import MONITORED_CAMPGROUNDS, POLLING_INTERVAL_MINUTES
 from processor import extract_available_data, format_availability_display
+from notifier import send_email_notification
 
 
 # reads campground list from config, loops thru each location, checks avail, waits X minutes, repeats
@@ -131,7 +132,10 @@ def display_results(results, is_new=False):
         )
         print(message)
         print()
-        # TODO: send notificaiton here
+
+    # send notification
+    if is_new:
+        send_email_notification(results)
 
 
 def run_poller():
@@ -158,6 +162,8 @@ def run_poller():
             if cycle_count == 1:
                 print("\n Initial scan - showing all current availability:")
                 display_results(current_results, is_new=False)
+                if current_results:
+                    send_email_notification(current_results)
             else:
                 # only show new availabiliity
                 new_availability = find_new_availability(current_results, prev_results)
