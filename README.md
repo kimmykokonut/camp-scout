@@ -49,6 +49,9 @@ python3 main.py
 - Choose the campground by number
 - Enter the month number to check availability
 
+CLI One time search
+![CLI screenshot](/assets/cli-single-search.png)
+
 ---
 
 ## Roadmap
