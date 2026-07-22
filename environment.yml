@@ -4,4 +4,5 @@ channels:
 dependencies:
   - python=3.11
   - requests
+  - python-dotenv
   - black
