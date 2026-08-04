@@ -1,4 +1,3 @@
-# TBD entry point for chronjob
 import calendar
 
 from api import get_campground_availability, search_campground_by_name
@@ -11,6 +10,8 @@ from processor import (
 )
 
 
+# interactive, one-shot CLI.
+# prompts for campground name & month, runs once and exits.
 def main():
     # Current iteration: interactive console app
     print("\n=== Rec.gov Availability Checker 2026 ===\n")
@@ -28,7 +29,9 @@ def main():
         if not campground_options:
             print("🙈 No campgrounds found.  Try a a different name.")
             continue
-        print(f"\n🎉 Found {len(campground_options)} campground(s) matching '{search_query}' \n")
+        print(
+            f"\n🎉 Found {len(campground_options)} campground(s) matching '{search_query}' \n"
+        )
         for i, campground in enumerate(campground_options):
             print(f" {i + 1}. {campground['name']}")
             print("-" * 20)
@@ -39,7 +42,9 @@ def main():
         try:
             selection_index = int(name_input) - 1
             if selection_index < 0 or selection_index >= len(campground_options):
-                print(f"⚠️ Error: Please enter a number between 1 and {len(campground_options)}")
+                print(
+                    f"⚠️ Error: Please enter a number between 1 and {len(campground_options)}"
+                )
                 continue
             selected_campground_name = campground_options[selection_index]["name"]
             selected_campground_id = campground_options[selection_index]["id"]
@@ -63,10 +68,14 @@ def main():
     # get month name
     month_name = calendar.month_name[month]
 
-    print(f"\n🔍 Checking availability for {selected_campground_name} in {month_name}...\n")
+    print(
+        f"\n🔍 Checking availability for {selected_campground_name} in {month_name}...\n"
+    )
 
     # get data from api
-    availability_response = get_campground_availability(selected_campground_id, month_input)
+    availability_response = get_campground_availability(
+        selected_campground_id, month_input
+    )
 
     if not availability_response:
         print("⚠️ Failed to fetch availability_response")
@@ -77,12 +86,17 @@ def main():
 
     if campsites_info:
         # format and display
-        message = format_availability_display(campsites_info, selected_campground_id, month_name)
+        message = format_availability_display(
+            campsites_info, selected_campground_id, month_name
+        )
         print(message)
         # TODO: add email notificaiotns
     else:
         # NOTE: feature idea- possible to find next available date? button on website.
-        print(f"😭 No available sites found for {selected_campground_name} in {month_name}")
+        print(
+            f"😭 No available sites found for {selected_campground_name} in {month_name}"
+        )
+
 
 if __name__ == "__main__":
     main()

@@ -13,7 +13,7 @@ Popular campsites on Recreation.gov book up months in advance. This script conti
 - **Python 3.11**
 - **Libraries:** `requests`, `python-dotenv`
 - **API:** Recreation.gov internal API
-- **Notifications:** TBD (Email)
+- **Notifications:** Email SMTP
 
 ---
 
@@ -53,6 +53,30 @@ CLI One time search
 ![CLI screenshot](/assets/cli-single-search.png)
 
 ---
+
+CLI Polling with Notifications (currently hardcoded)
+
+1. Activate conda env:
+
+```bash
+conda activate reservation-alert
+```
+
+2. Run the CLI:
+
+```bash
+python3 poller.py
+```
+
+3. Automated script:
+
+- runs availability checker on set locations and dates from config.py
+- returns results in CLI
+- if availability, email sent.
+
+![CLI poller screenshot](/assets/poller-cli.png)
+
+![email notification](/assets/email-notification.png)
 
 ## Roadmap
 

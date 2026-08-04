@@ -28,6 +28,6 @@ SMTP_PORT = 587
 
 # campgrounds to monitor
 MONITORED_CAMPGROUNDS = [
-    {"name": "Gotchen Guard Station", "campground_id": 10277125, "months": [4, 5, 6]},
-    {"name": "Fivemile Butte Lookout", "campground_id": 234248, "months": [4]},
+    {"name": "Gotchen Guard Station", "campground_id": 10277125, "months": [8, 10]},
+    {"name": "Fivemile Butte Lookout", "campground_id": 234248, "months": [9]},
 ]
