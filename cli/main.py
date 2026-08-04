@@ -1,9 +1,9 @@
 import calendar
 
-from api import get_campground_availability, search_campground_by_name
+from cli.api import get_campground_availability, search_campground_by_name
 
 # from config import LOCATIONS
-from processor import (
+from cli.processor import (
     extract_available_data,
     extract_search_results,
     format_availability_display,

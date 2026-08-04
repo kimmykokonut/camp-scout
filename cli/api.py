@@ -1,6 +1,6 @@
 import requests
 
-from config import API_BASE_URL, AVAILABILITY_PATH, HEADERS, SEARCH_PATH
+from cli.config import API_BASE_URL, AVAILABILITY_PATH, HEADERS, SEARCH_PATH
 
 
 def search_campground_by_name(name):

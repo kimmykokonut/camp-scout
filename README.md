@@ -22,7 +22,7 @@ Popular campsites on Recreation.gov book up months in advance. This script conti
 1. Create the Conda environment:
 
 ```bash
-conda env create -f environment.yml
+conda env create -f cli/environment.yml
 ```
 
 2. Activate it:
@@ -37,10 +37,10 @@ conda activate reservation-alert
 conda env update -f environment.yml --prune
 ```
 
-4. Run the CLI:
+4. Run the CLI from the root:
 
 ```bash
-python3 main.py
+python3 cli.main
 ```
 
 5. Follow the prompts:
@@ -65,7 +65,7 @@ conda activate reservation-alert
 2. Run the CLI:
 
 ```bash
-python3 poller.py
+python3 cli/poller
 ```
 
 3. Automated script:

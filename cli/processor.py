@@ -1,4 +1,4 @@
-from config import RESERVE_BASE_URL
+from cli.config import RESERVE_BASE_URL
 
 # param: json api response for multiple locations, returns sites, availability dict
 # def check_multiple_sites_availability(data):

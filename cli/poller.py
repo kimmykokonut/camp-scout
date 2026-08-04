@@ -1,10 +1,10 @@
 import time
 from datetime import datetime
 
-from api import get_campground_availability
-from config import MONITORED_CAMPGROUNDS, POLLING_INTERVAL_MINUTES
-from processor import extract_available_data, format_availability_display
-from notifier import send_email_notification
+from cli.api import get_campground_availability
+from cli.config import MONITORED_CAMPGROUNDS, POLLING_INTERVAL_MINUTES
+from cli.processor import extract_available_data, format_availability_display
+from cli.notifier import send_email_notification
 
 
 # reads campground list from config, loops thru each location, checks avail, waits X minutes, repeats

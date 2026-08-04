@@ -3,7 +3,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-from config import (
+from cli.config import (
     EMAIL_ENABLED,
     EMAIL_SENDER,
     EMAIL_PASSWORD,
@@ -15,7 +15,7 @@ from config import (
 
 def format_email_body(results):
     import calendar
-    from config import RESERVE_BASE_URL
+    from cli.config import RESERVE_BASE_URL
 
     body = "🏕️ New Campground Availability Detected!\n\n"
     body += "=" * 60 + "\n\n"
