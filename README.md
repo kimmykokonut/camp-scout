@@ -78,6 +78,23 @@ python3 cli/poller
 
 ![email notification](/assets/email-notification.png)
 
+## Moving past the CLI: Local setup
+
+### Backend
+
+1. Activate venv
+
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate
+```
+
+2. Install packages
+```bash
+pip install -r requirements.txt
+```
+
 ## Roadmap
 
 ### Phase 1: MVP
