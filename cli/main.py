@@ -43,63 +43,69 @@ def main():
             print("⚠️ Error: Please enter a valid number")
             continue
         print(f"\n✅ Selected: {selected_campground_name}\n")
-        # get month from user
-        # TODO: maybe add a date picker?
-        month_input = input("🗓️ Enter month to search for, eg. 4 for April: ")
-        # validate month
-        try:
-            month = int(month_input)
-            if month < 1 or month > 12:
-                print("Error: Month must be between 1-12")
-                return
-        except ValueError:
-            print("Error: Please enter a number between 1 and 12")
-            return
-        month_name = calendar.month_name[month]
-        print(
-            f"\n🔍 Checking availability for {selected_campground_name} in {month_name}...\n"
-        )
 
-        # get data from api
-        availability_response = get_campground_availability(
-            selected_campground_id, month_input
-        )
-
-        if not availability_response:
-            print("⚠️ Failed to fetch availability_response")
-            return
-
-        # Process availability_response
-        campsites_info = extract_available_data(availability_response)
-
-        if campsites_info:
-            # format and display
-            message = format_availability_display(
-                campsites_info, selected_campground_id, month_name
-            )
-            print(message)
-            start_polling = input(
-                "\n Do you want me to continue scanning for {selected_campground_name} in {month_name}?"
-            )
-            if start_polling:
-                user_email = input(
-                    "Enter your email and I will notify you when new spots open up..."
-                )
-                print("To quit polling, type ctrl + c")
-                # poll here
-            else:
-                break
-        else:
-            # NOTE: feature idea- possible to find next available date? button on website.
-            print(
-                f"😭 No available sites found for {selected_campground_name} in {month_name}"
-            )
-            try_again = input("Try again? y or n:")
-            if try_again == "y":
+        while True:
+            # get month from user
+            # TODO: maybe add a date picker?
+            month_input = input("🗓️ Enter month to search for, eg. 4 for April: ")
+            # validate month
+            try:
+                month = int(month_input)
+                if month < 1 or month > 12:
+                    print("Error: Month must be between 1-12")
+                    continue
+            except ValueError:
+                print("Error: Please enter a number between 1 and 12")
                 continue
+            month_name = calendar.month_name[month]
+            # option for one-time search or polling
+            mode = input(
+                "Mode: (1) Check once (2) Start polling and send email notifications:"
+            )
+            print(
+                f"\n🔍 Checking availability for {selected_campground_name} in {month_name}...\n"
+            )
+
+            if mode == "2":
+                email = input("Enter your email:")
+                from cli.poller import poll_loop
+
+                poll_loop(
+                    selected_campground_id, selected_campground_name, month, email
+                )
+                return
+
+            # one time check
+            availability_response = get_campground_availability(
+                selected_campground_id, month_input
+            )
+
+            if not availability_response:
+                print("⚠️ Failed to fetch availability_response")
+                return
+
+            # Process availability_response
+            campsites_info = extract_available_data(availability_response)
+
+            if campsites_info:
+                # format and display
+                message = format_availability_display(
+                    campsites_info, selected_campground_id, month_name
+                )
+                print(message)
+                print("\n 👋 Goodbye! \n")
+                return
             else:
-                print("Goodbye! \n")
-                break
+                # NOTE: feature idea- possible to find next available date? button on website.
+                print(
+                    f"😭 No available sites found for {selected_campground_name} in {month_name}"
+                )
+                try_again = input("Try again? y or n:")
+                if try_again == "y":
+                    continue
+                else:
+                    print("👋 Goodbye! \n")
+                    return
 
 
 if __name__ == "__main__":

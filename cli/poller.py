@@ -7,7 +7,7 @@ from cli.processor import extract_available_data, format_availability_display
 from cli.notifier import send_email_notification
 
 
-# reads campground list from config, loops thru each location, checks avail, waits X minutes, repeats
+# Helper: checks 1 campground once
 def poll_campground(campground, month):
     """
     Check avail for 1 campground for 1 month
@@ -33,37 +33,58 @@ def poll_campground(campground, month):
             "month": month,
             "sites_info": sites_info,
         }
-
     return None
 
 
-def poll_once():
-    # run one polling cycle, returns list of dict w availability resutls
-    print(f"\n{'='*60}")
-    print(
-        f"🔍 Starting polling cycle at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-    )
-    print(f"{'='*60}\n")
+def poll_loop(campground_id, campground_name, month, email):
+    """
+    Generic polling loop helper
+    """
+    campground = {
+        "campground_id": campground_id,
+        "name": campground_name,
+        "months": [month],
+    }
 
-    results = []
+    print("\n" + "=" * 60)
+    print("🏕️  CAMPGROUND AVAILABILITY POLLER")
+    print("=" * 60)
+    print(f"Monitoring {campground}")
+    print(f"Checking every {POLLING_INTERVAL_MINUTES} minute(s)")
+    print(f"Notifications to: {email}")
+    print("Press Ctrl+C to stop")
+    print("=" * 60 + "\n")
 
-    for campground in MONITORED_CAMPGROUNDS:
-        campground_name = campground["name"]
-        months = campground["months"]
+    cycle_count = 0
+    prev_results = []
 
-        print(f"📍 {campground_name}")
+    try:
+        while True:
+            cycle_count += 1
+            print(f"Cycle #{cycle_count}")
 
-        for month in months:
             availability = poll_campground(campground, month)
+            current_results = [availability] if availability else []
 
-            if availability:
-                results.append(availability)
-                print("Found availability")
+            if cycle_count == 1:
+                print("\n Initial scan - showing all current availability:")
+                display_results(current_results, is_new=False)
+                if current_results:
+                    send_email_notification(current_results, email)
             else:
-                print(f"No availability for month {month}")
+                new_availability = find_new_availability(current_results, prev_results)
+                display_results(new_availability, is_new=True)
+                if new_availability:
+                    send_email_notification(new_availability, email)
 
-        print()  # blank line
-    return results
+            prev_results = current_results
+            print(f"⏳ Waiting {POLLING_INTERVAL_MINUTES} minute(s)...")
+            print("Stop polling with ctrl + c")
+            print(f"{'='*60}\n")
+            time.sleep(POLLING_INTERVAL_MINUTES * 60)
+    except KeyboardInterrupt:
+        print("\n\n Polling stopped")
+        print(f"Total cycles: {cycle_count}")
 
 
 def get_available_dates_set(sites_info):
@@ -138,8 +159,38 @@ def display_results(results, is_new=False):
         send_email_notification(results)
 
 
-def run_poller():
-    # main poling loop, runs until stopped ctrl+c
+# uses hard-coded data
+def poll_once_config():
+    # run one polling cycle, returns list of dict w availability resutls
+    print(f"\n{'='*60}")
+    print(
+        f"🔍 Starting polling cycle at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+    )
+    print(f"{'='*60}\n")
+
+    results = []
+
+    for campground in MONITORED_CAMPGROUNDS:
+        campground_name = campground["name"]
+        months = campground["months"]
+
+        print(f"📍 {campground_name}")
+
+        for month in months:
+            availability = poll_campground(campground, month)
+
+            if availability:
+                results.append(availability)
+                print("Found availability")
+            else:
+                print(f"No availability for month {month}")
+
+        print()  # blank line
+    return results
+
+
+# uses config, runs infinite loop unless ctrol_c
+def run_poller_config():
     print("\n" + "=" * 60)
     print("🏕️  CAMPGROUND AVAILABILITY POLLER")
     print("=" * 60)
@@ -157,7 +208,7 @@ def run_poller():
             print(f"Cycle #{cycle_count}")
 
             # run 1 cycle
-            current_results = poll_once()
+            current_results = poll_once_config()
             # 1st cycle: show all
             if cycle_count == 1:
                 print("\n Initial scan - showing all current availability:")
@@ -181,8 +232,8 @@ def run_poller():
     except KeyboardInterrupt:
         print("\n\n Polling stopped by user")
         print(f"Total cycles completed: {cycle_count}")
-        print("Goodbye! \n")
+        print("👋 Goodbye! \n")
 
 
 if __name__ == "__main__":
-    run_poller()
+    run_poller_config()

@@ -48,20 +48,22 @@ def format_email_body(results):
     return body
 
 
-def send_email_notification(results):
+def send_email_notification(results, email=None):
     if not EMAIL_ENABLED:
         print("Email notifications disabled in config")
         return False
 
+    recipient = email or EMAIL_RECIPIENT
+
     if not EMAIL_SENDER or not EMAIL_PASSWORD or not EMAIL_RECIPIENT:
-        print("Email credentials not configured in .env file")
+        print("Email credentials not configured")
         return False
 
     try:
         # create msg
         msg = MIMEMultipart()
         msg["From"] = EMAIL_SENDER
-        msg["To"] = EMAIL_RECIPIENT
+        msg["To"] = recipient
         msg["Subject"] = "🏕️ New Campground Availability Alert!"
         # add body
         body = format_email_body(results)
@@ -72,7 +74,7 @@ def send_email_notification(results):
             server.login(EMAIL_SENDER, EMAIL_PASSWORD)
             server.send_message(msg)
 
-        print(f"Email notificaiton sent to {EMAIL_RECIPIENT}")
+        print(f"Email notification sent to {recipient}")
         return True
     except Exception as error:
         print(f"Failed to send email: {error}")
