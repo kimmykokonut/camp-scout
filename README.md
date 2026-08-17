@@ -1,4 +1,5 @@
-# Recreation.gov Reservation Alert
+# Camp Scout
+finding open campsites with email alerts
 
 ## What
 
