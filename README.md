@@ -2,16 +2,21 @@
 
 ## What
 
-A personal Python polling script that monitors Recreation.gov for campsite availability by specified campsite and month. Sends email notifications when reservations become available while polling is active.
+An interactive CLI with a Python polling script that monitors Recreation.gov for campsite availability by specified campsite and month.
+Sends email notifications when reservations become available while polling is active.
 
 ## Why
 
-Popular campsites on Recreation.gov book up months in advance. This script continuously checks for cancellations so you can snag last-minute reservations that would otherwise be impossible to find manually.
+Popular campsites on Recreation.gov book up months in advance and it's frustrating to be constantly refreshing and checking their site manually. This script was a personal project to continuously check for cancellations so I can find cancellations or general availability.
 
-## Tech Stack
+## Built With
 
-- **Python 3.11**
-- **Libraries:** `requests`, `python-dotenv`
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Markdown](https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white)
+![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
+![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+
+- **Env:** Miniconda
 - **API:** Recreation.gov internal API
 - **Notifications:** Email SMTP
 
@@ -37,7 +42,7 @@ conda activate reservation-alert
 conda env update -f environment.yml --prune
 ```
 
-4. Run the CLI from the root:
+4. Run the Interactive CLI from the root:
 
 ```bash
 python3 cli.main
@@ -48,13 +53,16 @@ python3 cli.main
 - Enter a campground name to search for
 - Choose the campground by number
 - Enter the month number to check availability
+- Choose 1 time search or enter email for polling to begin with email notifications of results.
 
 CLI One time search
 ![CLI screenshot](/assets/cli-single-search.png)
 
 ---
 
-CLI Polling with Notifications (currently hardcoded)
+### CLI Polling with Notifications
+
+(Keeping this code here for easy testing to just run poller with hard-coded values from config.py outside of interactivity)
 
 1. Activate conda env:
 
@@ -74,11 +82,17 @@ python3 cli/poller
 - returns results in CLI
 - if availability, email sent.
 
+_Terminal Screenshot_
 ![CLI poller screenshot](/assets/poller-cli.png)
 
+_Email content screenshot_
 ![email notification](/assets/email-notification.png)
 
-## Moving past the CLI: Local setup
+---
+
+## Stretch Goals WIP: Move logic to FastAPI, backend and simple frontend WedApp
+
+### Moving past the CLI: Local setup
 
 ### Backend
 
@@ -91,9 +105,12 @@ source venv/bin/activate
 ```
 
 2. Install packages
+
 ```bash
 pip install -r requirements.txt
 ```
+
+---
 
 ## Roadmap
 
@@ -109,20 +126,20 @@ pip install -r requirements.txt
 - [x] Results from user input month, year 2026 (No date range options yet)
 - [x] User keyword search for name, display top 5, user selects 1, id used to get availability
 - [x] Handle different campground types (guard stations vs multi-site campgrounds)
-- [ ] Configuration file for user preferences
+- [x] Configuration file for user preferences
 
-### Phase 3: Cron Job & Notifications
+### Phase 3: Polling loop and Notifications
 
 - [x] Polling loop (check every X minutes)
-- [ ] Save success results to file
 - [x] Basic notification system: email
-- [ ] Cron job setup
 
 ### Phase 4: Future Enhancements
 
-- [ ] Search by location (zip?) and specific date range (if possible via API)
-- [ ] Web app interface or Mobile app
-- [ ] SMS notifications
+- [ ] Create chron job
+- [ ] Save success results to file
+- [ ] Search by location (zip?) and specific date range (if even possible via API)
+- [ ] Web app interface
+- [ ] SMS notifications (not free)
 
 ---
 

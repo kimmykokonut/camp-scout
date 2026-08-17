@@ -7,7 +7,6 @@ load_dotenv()
 # API Config
 API_BASE_URL = "https://www.recreation.gov/api"
 AVAILABILITY_PATH = "camps/availability/campground"
-# TODO: remove query and make dynamic
 SEARCH_PATH = "search?fq=entity_type:campground&size=5"
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
